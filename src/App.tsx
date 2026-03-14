@@ -1,18 +1,7 @@
-import { Link, Outlet } from 'react-router'
-import './App.css'
+import { Outlet } from "react-router";
 
 function App() {
-  return (
-    <>
-      <header className="app-nav">
-        <nav>
-          <Link to="/">Home</Link>
-          <Link to="/about">About</Link>
-        </nav>
-      </header>
-      <Outlet />
-    </>
-  )
+  return <Outlet />;
 }
 
-export default App
+export default App;

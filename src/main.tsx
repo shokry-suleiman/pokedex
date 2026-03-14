@@ -1,11 +1,15 @@
 import { StrictMode } from 'react'
 import { createRoot } from 'react-dom/client'
 import { RouterProvider, createBrowserRouter } from 'react-router'
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 import './index.css'
 import App from './App.tsx'
-import About from './pages/Details.tsx'
-import Home from './pages/Home.tsx'
+import AppErrorBoundary from './components/AppErrorBoundary'
 import NotFound from './pages/NotFound.tsx'
+import Home from './pages/Home.tsx'
+import Details from './pages/Details.tsx'
+
+const queryClient = new QueryClient()
 
 const router = createBrowserRouter([
   {
@@ -14,13 +18,17 @@ const router = createBrowserRouter([
     errorElement: <NotFound />,
     children: [
       { index: true, element: <Home /> },
-      { path: 'about', element: <About /> },
+      { path: 'pokemon/:id', element: <Details /> },
     ],
   },
 ])
 
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
-    <RouterProvider router={router} />
+    <QueryClientProvider client={queryClient}>
+      <AppErrorBoundary>
+        <RouterProvider router={router} />
+      </AppErrorBoundary>
+    </QueryClientProvider>
   </StrictMode>,
 )
