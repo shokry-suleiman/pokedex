@@ -52,9 +52,10 @@ export default function Home() {
           )}
           <PaginationControls
             page={page}
+            totalCount={data?.count ?? 0}
+            limit={limit}
             isLoading={isFetching}
-            onPrev={() => setPage((prev) => Math.max(prev - 1, 0))}
-            onNext={() => setPage((prev) => prev + 1)}
+            onPageChange={setPage}
           />
         </div>
       ) : (
