@@ -19,9 +19,9 @@ export default function PokemonPageControl({ limit = 20 }: PokemonPageControlPro
 
   if (isLoading) {
     return (
-      <div className="bg-[#e9efff]">
-        <section className="mx-auto grid max-w-5xl grid-cols-1 gap-4 px-4 py-8 sm:grid-cols-2 lg:grid-cols-3">
-          {Array.from({ length: 6 }).map((_, index) => (
+      <div className="min-h-screen bg-[#e9efff]">
+        <section className="mx-auto grid max-w-5xl grid-cols-1 gap-4 px-4 py-8 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
+          {Array.from({ length: 9 }).map((_, index) => (
             <Skeleton key={index} />
           ))}
         </section>
@@ -32,7 +32,7 @@ export default function PokemonPageControl({ limit = 20 }: PokemonPageControlPro
   const totalPages = Math.ceil((data?.count ?? 0) / limit)
 
   return (
-    <div className="bg-[#e9efff]">
+    <div className="min-h-screen bg-[#e9efff]">
       <PokemonGrid
         items={data?.results ?? []}
         isError={isError}
