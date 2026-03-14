@@ -1,12 +1,11 @@
-import { getPokemonId, getSpriteUrl } from '../lib/pokemon'
 import { usePokemonInfinite } from '../hooks/usePokemonInfinite'
-import PokemonCard from './PokemonCard'
+import PokemonGrid from './PokemonGrid'
 
 type InfinitePokemonListProps = {
   limit?: number
 }
 
-export default function PokemonInfiniteLoadMore({ limit = 10 }: InfinitePokemonListProps) {
+export default function PokemonInfiniteLoadMore({ limit = 20 }: InfinitePokemonListProps) {
   const {
     data,
     isError,
@@ -21,43 +20,32 @@ export default function PokemonInfiniteLoadMore({ limit = 10 }: InfinitePokemonL
   const items = data?.pages.flatMap((page) => page.results) ?? []
 
   return (
-    <section className="mx-auto grid max-w-5xl grid-cols-1 gap-4 px-4 py-8 sm:grid-cols-2 lg:grid-cols-3">
-      {isError && (
-        <div className="col-span-full rounded-lg border border-red-200 bg-red-50 p-4 text-sm text-red-700">
-          <p>{(error as Error).message}</p>
-          <button
-            type="button"
-            className="mt-3 rounded-md border border-red-200 bg-white px-3 py-1.5 text-xs font-medium text-red-700"
-            onClick={() => refetch()}
-            disabled={isFetching}
-          >
-            {isFetching ? 'Retrying...' : 'Retry'}
-          </button>
-        </div>
-      )}
-      {items.map((pokemon, index) => (
-        <PokemonCard
-          key={`${pokemon.name}-${index}`}
-          id={getPokemonId(pokemon.url)}
-          name={pokemon.name}
-          sprite={getSpriteUrl(pokemon.url)}
-        />
-      ))}
-      <div className="col-span-full flex justify-center">
-        <button
-          type="button"
-          className="rounded-md border border-gray-200 px-4 py-2 text-sm font-medium text-gray-900 disabled:cursor-not-allowed disabled:opacity-50"
-          onClick={() => fetchNextPage()}
-          disabled={!hasNextPage || isFetchingNextPage}
-        >
-          {isFetchingNextPage ? 'Loading...' : 'Load more'}
-        </button>
-      </div>
-      {isFetchingNextPage && (
-        <p className="col-span-full text-center text-sm text-gray-500">
+    <PokemonGrid
+      items={items}
+      isError={isError}
+      error={error as Error | undefined}
+      isFetching={isFetching}
+      onRetry={() => refetch()}
+    >
+      {isFetchingNextPage ? (
+        <p className="col-span-full flex items-center justify-center gap-2 text-center text-sm text-gray-500">
+          <span className="h-4 w-4 animate-spin rounded-full border-2 border-gray-300 border-t-gray-900" />
           Loading more Pokemon...
         </p>
-      )}
-    </section>
+      ) : hasNextPage ? (
+        <div className="col-span-full flex justify-center">
+          <button
+            type="button"
+            className="rounded-md border border-gray-200 bg-white px-4 py-2 text-sm font-medium text-gray-900 disabled:cursor-not-allowed disabled:opacity-50"
+            onClick={() => fetchNextPage()}
+          >
+            Load more
+          </button>
+        </div>
+      ) : null}
+      <p className="col-span-full text-center text-sm text-gray-500">
+       Showing {items.length} Pokémon
+      </p>
+    </PokemonGrid>
   )
 }

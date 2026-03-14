@@ -1,21 +1,24 @@
+import type { ReactNode } from 'react'
 import PokemonCard from './PokemonCard'
 import { getPokemonId, getSpriteUrl } from '../lib/pokemon'
-import type { PokemonListResponse } from '../types/pokemon'
+import type { PokemonListItem } from '../types/pokemon'
 
 type PokemonGridProps = {
-  data?: PokemonListResponse
+  items: PokemonListItem[]
   isError: boolean
   error?: Error
   isFetching: boolean
   onRetry: () => void
+  children?: ReactNode
 }
 
 export default function PokemonGrid({
-  data,
+  items,
   isError,
   error,
   isFetching,
   onRetry,
+  children,
 }: PokemonGridProps) {
   return (
     <section className="mx-auto grid max-w-5xl grid-cols-1 gap-4 px-4 py-8 sm:grid-cols-2 lg:grid-cols-3">
@@ -32,7 +35,7 @@ export default function PokemonGrid({
           </button>
         </div>
       )}
-      {data?.results.map((pokemon) => (
+      {items.map((pokemon) => (
         <PokemonCard
           key={pokemon.name}
           id={getPokemonId(pokemon.url)}
@@ -40,6 +43,7 @@ export default function PokemonGrid({
           sprite={getSpriteUrl(pokemon.url)}
         />
       ))}
+      {children}
     </section>
   )
 }

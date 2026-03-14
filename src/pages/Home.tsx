@@ -43,20 +43,23 @@ export default function Home() {
             renderGridFallback()
           ) : (
             <PokemonGrid
-              data={data}
+              items={data?.results ?? []}
               isError={isError}
               error={error as Error | undefined}
               isFetching={isFetching}
               onRetry={() => refetch()}
-            />
+            >
+              <div className="col-span-full">
+                <PaginationControls
+                  page={page}
+                  totalCount={data?.count ?? 0}
+                  limit={limit}
+                  isLoading={isFetching}
+                  onPageChange={setPage}
+                />
+              </div>
+            </PokemonGrid>
           )}
-          <PaginationControls
-            page={page}
-            totalCount={data?.count ?? 0}
-            limit={limit}
-            isLoading={isFetching}
-            onPageChange={setPage}
-          />
         </div>
       ) : (
         <div style={{ backgroundColor: '#e1fced' }}>
