@@ -21,7 +21,7 @@ export default function PokemonGrid({
   children,
 }: PokemonGridProps) {
   return (
-    <section className="mx-auto grid max-w-5xl grid-cols-1 gap-4 px-4 py-8 sm:grid-cols-2 lg:grid-cols-3">
+    <section className="mx-auto grid max-w-5xl grid-cols-1  gap-4 px-4 py-8 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
       {isError && (
         <div className="col-span-full rounded-lg border border-red-200 bg-red-50 p-4 text-sm text-red-700">
           <p>{error?.message ?? 'Something went wrong.'}</p>

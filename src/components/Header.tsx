@@ -8,10 +8,10 @@ type HeaderProps = {
 export default function Header({ active, onNavigate }: HeaderProps) {
   const isPageControl = active === 'page-control'
   const isInfiniteScroll = active === 'infinite-scroll'
-  const accent = isPageControl ? '#e9efff' : '#e1fced'
+  const headerBg = isPageControl ? 'bg-[#e9efff]' : 'bg-[#e1fced]'
 
   return (
-    <header style={{ backgroundColor: accent }}>
+    <header className={headerBg}>
       <div className="flex flex-col items-center justify-center gap-3 py-6">
         <div className="flex items-center gap-2">
           <img className="h-6 w-6" src={flashIcon} alt="Flash" />

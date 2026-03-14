@@ -7,7 +7,6 @@ import App from './App.tsx'
 import AppErrorBoundary from './components/AppErrorBoundary'
 import NotFound from './pages/NotFound.tsx'
 import Home from './pages/Home.tsx'
-import Details from './pages/Details.tsx'
 
 const queryClient = new QueryClient()
 
@@ -18,7 +17,11 @@ const router = createBrowserRouter([
     errorElement: <NotFound />,
     children: [
       { index: true, element: <Home /> },
-      { path: 'pokemon/:id', element: <Details /> },
+      {
+        path: 'pokemon/:id',
+        lazy: () =>
+          import('./pages/Details.tsx').then((m) => ({ Component: m.default })),
+      },
     ],
   },
 ])
